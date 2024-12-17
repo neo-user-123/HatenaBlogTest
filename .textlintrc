@@ -1,6 +1,9 @@
 {
   "rules": {
-    "ja-no-abbr": true,
-    "preset-ja-technical-writing": true
+    "preset-ja-technical-writing": true,
+    "no-todo-comment": true,
+    "max-length": {
+      "max": 100
+    }
   }
 }
