@@ -1,43 +1,25 @@
 name: Textlint for Commit
 
-on:
-  push:
-    branches:
-      - main  # メインブランチに対するpushをトリガー
-    paths:
-      - 'blog-content/*.md'  # 校正したいMarkdownファイルのパス
-
+on: 
+  pull_request_target:
+    types: [ opened, synchronize ]
+    paths: [ 'contents/**/*.md' ]
 jobs:
-  lint:
+  run-textlint-minimum:
     runs-on: ubuntu-latest
-
+    permissions:
+      pull-requests: write
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
-
-    - name: Install dependencies
-      run: |
-        npm install
-
-    - name: Run textlint
-      id: lint
-      run: |
-        npx textlint blog-content/*.md --format json > result.json
-        echo "::set-output name=lint-result::$(cat result.json)"
-
-    - name: Comment on commit or PR
-      run: |
-        LINT_RESULT=$(cat result.json)
-
-        # コメント内容
-        COMMENT_BODY="## Textlint Results\n\n$LINT_RESULT"
-
-        # コミットにコメント
-        curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          -d "{\"body\": \"$COMMENT_BODY\"}" \
-          "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments" || true
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - run: npm install
+      - run: npx textlint ./contents/**/*.md >> ./.textlint.log
+      - if: ${{ failure() }}
+        run: gh pr comment --body-file ./.textlint.log "${URL}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          URL: ${{ github.event.pull_request.html_url }}
