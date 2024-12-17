@@ -1,2 +1,8 @@
-npm init -y
-npm install textlint textlint-rule-preset-ja-technical-writing --save-dev
+{
+  "name": "HatenaBlogTest",
+  "version": "1.0.0",
+  "devDependencies": {
+    "textlint": "^13.0.0",
+    "textlint-rule-preset-ja-technical-writing": "^1.0.0"
+  }
+}
