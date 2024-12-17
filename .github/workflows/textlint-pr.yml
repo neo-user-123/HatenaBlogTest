@@ -3,7 +3,7 @@ name: Textlint for Commit
 on: 
   pull_request_target:
     types: [ opened, synchronize ]
-    paths: [ 'contents/**/*.md' ]
+    paths: [ 'blog-content/*.md' ]
 jobs:
   run-textlint-minimum:
     runs-on: ubuntu-latest
