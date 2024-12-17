@@ -1,0 +1,40 @@
+name: Textlint for Pull Request
+
+on:
+  pull_request:
+    paths:
+      - 'blog-content/*.md'  # 校正したいMarkdownファイルのパス
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: Install dependencies
+      run: |
+        npm install
+
+    - name: Run textlint
+      id: lint
+      run: |
+        npx textlint blog-content/*.md --format json > result.json
+        echo "::set-output name=lint-result::$(cat result.json)"
+
+    - name: Post comments on PR
+      if: steps.lint.outputs.lint-result != ''
+      run: |
+        LINT_RESULT=$(cat result.json)
+        COMMENT_BODY="## Textlint Results\n\n$LINT_RESULT"
+        
+        # GitHub APIを使ってPRコメントを投稿
+        curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -d "{\"body\": \"$COMMENT_BODY\"}" \
+          "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
