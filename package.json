@@ -1,2 +1,2 @@
-npm init -y  # package.jsonを作成
-npm install --save-dev textlint textlint-rule-ja-no-abbr textlint-rule-preset-ja-technical-writing
+npm init -y
+npm install textlint textlint-rule-preset-ja-technical-writing --save-dev
