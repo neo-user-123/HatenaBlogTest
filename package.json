@@ -1,8 +1,16 @@
 {
-  "name": "HatenaBlogTest",
-  "version": "1.0.0",
+  "name": "nodejs",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "devDependencies": {
-    "textlint": "^13.0.0",
-    "textlint-rule-preset-ja-technical-writing": "^1.0.0"
+    "textlint": "^14.4.0",
+    "textlint-filter-rule-allowlist": "^4.0.0",
+    "textlint-rule-preset-ja-technical-writing": "^10.0.1"
   }
 }
