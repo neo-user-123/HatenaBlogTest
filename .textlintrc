@@ -1,9 +1,9 @@
 {
+  "plugins": {},
+  "filters": {
+    "allowlist": true
+  },
   "rules": {
-    "preset-ja-technical-writing": true,
-    "no-todo-comment": true,
-    "max-length": {
-      "max": 1000
-    }
+    "preset-ja-technical-writing": true
   }
 }
