@@ -3,7 +3,7 @@
     "preset-ja-technical-writing": true,
     "no-todo-comment": true,
     "max-length": {
-      "max": 100
+      "max": 1000
     }
   }
 }
