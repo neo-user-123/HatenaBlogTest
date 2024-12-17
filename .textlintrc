@@ -1,0 +1,6 @@
+{
+  "rules": {
+    "ja-no-abbr": true,
+    "preset-ja-technical-writing": true
+  }
+}
